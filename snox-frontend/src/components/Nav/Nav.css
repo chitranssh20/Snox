@@ -1,0 +1,32 @@
+#nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 10px;
+    width: 100%;
+}
+#nav-ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 40%;
+    padding: 10px 0px;
+    gap: 30px;
+}
+.nav-ul-li{
+    font-size: 18px;
+    list-style: none;
+    letter-spacing: 1.2px;
+    text-decoration: 5px solid red underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px){
+    #nav-ul{
+        width: 100%;
+    }
+}
+
+
