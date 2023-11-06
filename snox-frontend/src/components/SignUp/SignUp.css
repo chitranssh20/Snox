@@ -1,0 +1,14 @@
+#signUp-form{
+    width: 100%;
+}
+.form-bifield-container{
+    width: 100%;
+    display: flex;
+    gap: 15px;
+}
+
+@media only screen and (max-width: 900px){
+    .form-bifield-container{
+        flex-direction: column;
+    }
+}

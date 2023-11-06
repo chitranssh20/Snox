@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager
+from django.contrib.auth.hashers import make_password
 # Create your models here.
+
 
 class UserManager(BaseUserManager):
     def create_user(self, fname, lname, phone, city ,street, email , password= None):
@@ -17,6 +19,7 @@ class UserManager(BaseUserManager):
             addCity = Address(city = city)
             addCity.save()
         cityId = Address.objects.get(city = city)
+        password = make_password(password)
         user = self.model(email = email, password = password, fname= fname, lname = lname, phone = phone , city = cityId, street = street)
         user.save()
         print("user manager",  user)
@@ -31,6 +34,7 @@ class User(AbstractBaseUser):
     fname = models.CharField(max_length=50, null=False, blank=False)
     lname = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=200, unique=True, null=False)
+    password = models.CharField()
     phone = models.CharField(max_length=10, null=False, blank=False)
     street = models.CharField(max_length=200, null = True)
     city = models.ForeignKey('Address', on_delete=models.CASCADE)

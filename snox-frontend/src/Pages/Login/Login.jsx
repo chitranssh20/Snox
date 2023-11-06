@@ -1,6 +1,6 @@
 import React from 'react'
-import TopBanner from '../components/TopBanner/TopBanner'
-import LoginCp from '../components/Login/Login'
+import TopBanner from '../../components/TopBanner/TopBanner'
+import LoginCp from '../../components/Login/Login'
 import "./Login.css"
 const Login = () => {
   return (

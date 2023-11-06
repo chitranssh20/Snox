@@ -22,7 +22,7 @@ const Login = () => {
 
   return (
     <>
-    <div id="form-container">
+    <div className="form-container">
       <div id="form-filler">
           <span id="form-snox-title">SNOX</span>
       </div>
@@ -51,8 +51,8 @@ const Login = () => {
                   <button className="form-button" type='submit' >LogIn</button>
                   </>
                 }
-                <p id="form-alternate-caption">New To Snox?   
-                    <Link to={"/signup"} id="form-alternate-caption-link"> Sign Up </Link>
+                <p className="form-alternate-caption">New To Snox?   
+                    <Link to={"/signup"} className="form-alternate-caption-link"> Sign Up </Link>
                   </p>
         </form>
 
