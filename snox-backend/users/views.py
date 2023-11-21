@@ -6,13 +6,22 @@ from .models import User
 from .models import Address
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout
-import jsonwebtoken as jwt
+from Serializers.UserSerializer import UserSerializer
+import jwt
 import datetime
 from AuthClasses.authenticate import TokenAuthentication
+import pytz
+import time
 # Create your views here.
 def createJWT(email):
-    token = jwt.encode({"email" : email, "iat" : datetime.datetime.now()}, "secret" )
-    return token
+    encoded = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
+    tokenWeHave = jwt.encode({"email": email, "iat": time.time() }, key="secret", algorithm="HS256")
+    decoded = jwt.decode(encoded, "secret", algorithms=["HS256"])
+    try:
+        toded = jwt.decode(tokenWeHave, "secret", algorithms=["HS256"])
+    except jwt.InvalidTokenError as e:
+        print(e)
+    return tokenWeHave
 
 class RegisterUser(APIView):
     def post(self, request):
@@ -36,10 +45,13 @@ class RegisterUser(APIView):
             return Response({"response":"User already registered"}, status=status.HTTP_409_CONFLICT)
         except:
             try :
-                # user = User.custobj.create_user(fname=fname, lname=lname, email=email, password=password, street=street, city=city, phone=phone)
+              
                 user = User.objects.create_user(fname=fname, lname=lname, email=email, password=password, street=street, city=city, phone=phone)
                 token = createJWT(email)
-                return Response({"response": "User has been registered", "token": token}, status=status.HTTP_201_CREATED)
+                userDetail = User.objects.get(email = email)
+                details = UserSerializer(userDetail)
+
+                return Response({"response": "User has been registered","info": details.data, "token": token}, status=status.HTTP_201_CREATED)
                 
             except TypeError:
                 return Response({"response": "Server is broken"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -56,9 +68,17 @@ class LogInUser(APIView):
             emailExists =  User.objects.get(email = email)
             try:
                 user = authenticate(request,username= email,password= password)
+                print(user)
+                user = 15
                 if user is not None:
-                    token = createJWT(email)
-                    return Response({"response": "User succesffuly logged in", "token": token}, status=status.HTTP_202_ACCEPTED)
+                    try:
+                        token = createJWT(email)
+                        # return Response({5})
+                        userName = User.objects.get(email = email)
+                        userDetail = UserSerializer(userName)
+                        return Response({"response": "User succesffuly logged in","info": userDetail.data, "token": token}, status=status.HTTP_202_ACCEPTED)
+                    except:
+                        return Response({"Resposne": "COuld not logged in"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
                 else:
                     return Response({"response":"Wrong password"}, status=status.HTTP_400_BAD_REQUEST)
             except:

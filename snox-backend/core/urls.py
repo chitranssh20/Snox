@@ -20,5 +20,7 @@ import users
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('v1/users/', include('users.urls'))
+    path('v1/users/', include('users.urls')),
+    path('v1/products/', include('products.urls')),
+    path('v1/transactions/', include('transactions.urls'))
 ]

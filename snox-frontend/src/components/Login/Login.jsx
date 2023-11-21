@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import "./Login.css"
 import LoadingButton from '../LoadingButton/LoadingButton'
 import { Link } from "react-router-dom";
+import axiosInstance from '../axios';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
-    const [emailId, setemailId] = useState("test");
+  const navigate = useNavigate();
+    const [emailId, setemailId] = useState("user@test.com");
     const [password, setpassword] = useState("test");
     const [emailError, setemailError] = useState("");
     const [passwordError, setpasswordError] = useState("");
@@ -13,12 +18,49 @@ const Login = () => {
 
     const submitLogInForm = (e) => {
         e.preventDefault();
-        window.alert("This is form triggered");
+        if(emailId.trim() === ''){
+          setemailError("Email field is mandatory")
+          return;
+        }
+        if(password.trim() == ''){
+          setpasswordError("Please Enter Password");
+          return 
+        }
+        
+        // Calling LogIn API
+        setIsLoginAPiInProgress(true);
+        const credentials = {
+          "email": emailId,
+          "password": password
+        }
+        axiosInstance.post('/users/login/', credentials).then((res)=>{
+          if(res.status == 202){
+            Cookies.set("JWT", res.data.token);
+            Cookies.set("fname", res.data.info.fname)
+            Cookies.set("lname", res.data.info.lname)
+            navigate("/")
+          }
+        }).catch((err)=> {
+          setpasswordError(err.response.data.response)
+        })
+        setIsLoginAPiInProgress(false)
         setemailId("");
         setpassword("");
-        // TODO: Call the API
 
     }
+
+
+    useEffect(() => {
+      
+      if(emailId.trim() != ''){
+        setemailError("");
+      }
+      if(password.trim() != ''){
+        setpasswordError("");
+      }
+      
+    }, [emailId, password])
+    
 
   return (
     <>
@@ -30,7 +72,7 @@ const Login = () => {
 
                 <div className="form-snippet-container">
                 <label htmlFor="login-email" className='form-labels' >Email: </label>
-                <input type="text" className='form-input' name='login-email' value={emailId} onChange={(e) => {setemailId(e.target.value)}} />
+                <input type="email" className='form-input' name='login-email' value={emailId} onChange={(e) => {setemailId(e.target.value)}} />
                 <span className="form-error-field" > {emailError} </span>
                 </div>
                 

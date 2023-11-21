@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User, Address
+
 # Create your models here.
 
 class Transactions(models.Model):

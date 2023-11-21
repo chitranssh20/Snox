@@ -1,0 +1,119 @@
+#catalog{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.shop-product {
+    width: 90vw;
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+}
+.shop-product:nth-child(even){
+    flex-direction: row-reverse;
+}
+.shop-product-image{
+    width: 50%;
+    height: 100%;
+    /* background-color: rgb(209, 195, 195); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: teal;
+}
+.shop-product-image img {
+    max-width: 100%;
+    max-height: 100%;
+}
+.shop-product-description{
+    width: 50%;
+    height: 100%;
+    padding: 20px;
+}
+.shop-product-description-title{
+    font-weight: bold;
+    letter-spacing: 1.1px;
+    font-family: Lato, Helvetica, sans-serif;
+}
+.shop-product-description-subheading{
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.shop-product-description-price{
+    margin-bottom: 30px;
+    font-weight: 800;
+    color: white;
+    background-color: red;
+    padding: 10px 10px;
+    display: inline-block;
+}
+.shop-product-description-desc{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 25px;
+    margin-bottom: 20px;
+}
+.shop-product-description-qty{
+    padding: 5px;
+    background-color: white;
+    display: inline-block;
+    margin: 10px;
+    padding-left: 0px;
+    margin-left: 0px;
+}
+.shop-product-description-qty-main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.shop-product-description-qty-symbol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.shop-product-description-center-symbol{
+    border: 3px solid  red;
+    border-top: none;
+    border-bottom: none;
+    cursor: default;
+    
+}
+.shop-product-description-button{
+    padding: 20px 80px;
+    background-color: red;
+    color: white;
+    font-weight: 20px;
+    cursor: pointer;
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+
+@media screen and (max-width: 900px) {
+    #catalog{
+        margin-top: 20px;
+        gap: 50px;
+    }
+    .shop-product{
+        flex-direction: column;
+    }
+    .shop-product-image{
+        width: 100%;
+        height: 50%;
+    }
+    .shop-product:nth-child(even){
+        flex-direction: column;
+    }
+    .shop-product-description{
+        width: 100%;
+    }
+    /* .shop-product-description-title{
+        font-size: 16px;
+    } */
+}
